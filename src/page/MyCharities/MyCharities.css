@@ -1,0 +1,31 @@
+#mc-page {
+  color: #254139;
+  font-family: sans-serif;
+  padding-top: 6%;
+}
+
+#mc-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mc-header {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 1%;
+}
+
+#mc-description {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #717171;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  margin: 2px;
+}
