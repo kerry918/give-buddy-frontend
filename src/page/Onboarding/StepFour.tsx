@@ -1,39 +1,31 @@
 import React from 'react';
 import "./StepFour.css";
 import { useGiveBuddyStore } from '../../store/store';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import availableProvince from '../../constants/province';
 
 const StepFour = () => {
-  const choices = ["Within Canada", "Within my province", "Within my city", "Doesn’t matter to me"]
+  const choices = ["Within Canada", "Within my province", "Doesn’t matter to me"]
   const [showProvince, setShowProvince] = React.useState(false)
-  const [showCity, setShowCity] = React.useState(false)
-  // const [location, setLocation] = React.useState("")
 
-  const [location, province, city, updateLocation, updateProvince, updateCity] = useGiveBuddyStore(
-    (state) => [state.location, state.province, state.city, state.updateLocation, state.updateProvince, state.updateCity]
+  const [location, province, updateLocation, updateProvince] = useGiveBuddyStore(
+    (state) => [state.location, state.province, state.updateLocation, state.updateProvince]
   )
 
   const handleClick = (choice: string) => {
     if (choice === "Within my province") {
-      setShowCity(false)
       setShowProvince(true)
     } 
-    else if (choice === "Within my city") {
-      setShowProvince(false)
-      setShowCity(true)
-    }
     else {
-      setShowCity(false)
       setShowProvince(false)
     }
     updateLocation(choice)
   }
 
-  const onProvinceInputChange = (e: any) => {
-    updateProvince(e.target.value)
-  }
-
-  const onCityInputChange = (e: any) => {
-    updateCity(e.target.value)
+  const onProvinceInputChange = (event: SelectChangeEvent) => {
+    updateProvince(event.target.value)
   }
 
   // React.useEffect(() => {
@@ -55,16 +47,24 @@ const StepFour = () => {
               <p id="onboarding-step-four-button-text">{choice}</p>
             </div>
             {(choice === "Within my province" && showProvince === true) && (
-              <>
-                <p id="onboarding-step-four-subtext">Enter Province</p>
-                <input id="onboarding-step-four-input" onInput={onProvinceInputChange}/>
-              </>
-            )}
-            {(choice === "Within my city" && showCity === true) && (
-              <>
-                <p id="onboarding-step-four-subtext">Enter City</p>
-                <input id="onboarding-step-four-input" onInput={onCityInputChange}/>
-              </>
+              <span style={{marginBottom: "20px"}}>
+                <p id="onboarding-step-four-subtext">Select Province</p>
+                {/* <input id="onboarding-step-four-input" onInput={onProvinceInputChange}/> */}
+                <FormControl>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="onboarding-step-four-select"
+                    value={province}
+                    onChange={onProvinceInputChange}
+                  >
+                    {availableProvince.map((p) => {
+                      return (
+                        <MenuItem value={p.short} style={{height: "40px"}}>{p.long}</MenuItem>
+                      )
+                    })}
+                  </Select>
+                </FormControl>
+              </span>
             )}
           </>
         )
