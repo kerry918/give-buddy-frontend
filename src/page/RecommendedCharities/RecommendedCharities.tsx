@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 
 import "./RecommendedCharities.css"
 import { getSpecificCharities } from "../../utils/utils";
+import { Button } from "@mui/material";
 
 const RecommendedCharities = () => {
   const [matched_charities, user_uid, updateMatchedCharities] = useGiveBuddyStore(
@@ -25,7 +26,7 @@ const RecommendedCharities = () => {
   React.useEffect(() => {
     if (matched_charities){
       axios
-        .get(`${API_URL}/charities/${matched_charities[1]}/`)
+        .get(`${API_URL}/charities/${matched_charities[2]}/`)
         .then((res) => setCurCharity(res.data))
         .catch((err) => console.log(err));
     }
@@ -59,41 +60,68 @@ const RecommendedCharities = () => {
       {curCharity !== undefined && (
         // <div>{curCharity.charity_name}</div>
         <div id="rc-page-card-container">
-          <Card variant="outlined" sx={{ maxWidth: 770, maxHeight: 470 }}>
+          <Card variant="outlined" sx={{ maxWidth: 770, maxHeight: 470 }} id="rc-page-card">
             <Box sx={{ p: 2 }}>
               <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <img src={curCharity.logo}/>
-                <Stack direction="column" justifyContent="space-between" alignItems="start">
+                <img src={curCharity.logo} style={{width: 155}}/>
+                <Stack direction="column" justifyContent="space-between" alignItems="start" id="rc-page-center-container">
                   <Typography gutterBottom variant="h6" component="div">
                     {curCharity.charity_name}
                   </Typography>
-                  <Stack direction="row" spacing={1}>
+                  <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
                     {curCharity.sub_category.split(", ").map((sc) => {
                       return (
-                        <Chip label={sc} size="small" />
+                        <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
                       )
                     })}
                   </Stack>
-                  <Typography gutterBottom variant="h6" component="div">
-                    $4.50
-                  </Typography>
+                  <Stack direction="row" spacing={1} id="rc-page-score-container">
+                    <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
+                      <Typography gutterBottom component="div" id="rc-page-score-title">
+                        FINANCIAL TRANSPARENCY
+                      </Typography>
+                      <Typography id="rc-page-score-value">
+                        {curCharity.financial_transparency.toString()}
+                      </Typography>
+                    </Stack>
+                    <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
+                      <Typography gutterBottom component="div" id="rc-page-score-title">
+                        CENTS TO CAUSE
+                      </Typography>
+                      <Typography gutterBottom component="div" id="rc-page-score-value">
+                        {curCharity.cents_to_cause.toString()} %
+                      </Typography>
+                    </Stack>
+                    <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
+                      <Typography gutterBottom component="div" id="rc-page-score-title">
+                        RESULTS REPORTING
+                      </Typography>
+                      <Typography gutterBottom component="div" id="rc-page-score-value">
+                        {curCharity.results_reporting.toString()}
+                      </Typography>
+                    </Stack>
+                  </Stack>
                 </Stack>
-                <Typography gutterBottom variant="h6" component="div">
-                  $4.50
-                </Typography>
+                <div id="rc-page-save-button-container">
+                  <Button variant="outlined">Save</Button>
+                </div>
               </Stack>
             </Box>
-            <Divider light variant="middle" style={{background: "#D9D9D9", width: "706.001px", height: "2px"}}/>
+            <Divider light style={{background: "#D9D9D9", height: "2px"}}/>
             <Box sx={{ p: 2 }}>
-              <Typography gutterBottom variant="body2">
-                Select type
+              <Typography gutterBottom variant="body2" id="rc-page-about-title">
+                About
               </Typography>
-              <Stack direction="row" spacing={1}>
-                <Chip color="primary" label="Soft" size="small" />
-                <Chip label="Medium" size="small" />
-                <Chip label="Hard" size="small" />
-              </Stack>
+              <Typography gutterBottom variant="body2" id="rc-page-about-description">
+                {curCharity.overview}
+              </Typography>
+              <Typography gutterBottom variant="body2">
+                Learn More
+              </Typography>
             </Box>
+            <div id="rc-page-visit-button-container">
+              <Button size="large" href={"https://" + curCharity.website} target="_blank" id="rc-page-visit-button">Visit Charity Website</Button>
+            </div>
           </Card>
         </div>
       )}
