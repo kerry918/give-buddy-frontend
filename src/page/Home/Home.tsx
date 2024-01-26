@@ -4,11 +4,19 @@ import {auth} from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+import { useGiveBuddyStore } from '../../store/store';
+
 import "./Home.css"
 
 const Home = () => {
     const navigate = useNavigate();
     const auth = getAuth();
+    const [updateUserUid, updateUserId, user_id] = useGiveBuddyStore(
+      (state) => [state.updateUserUid, state.updateUserId, state.user_id]
+    )
+    useEffect(() => {
+      console.log(user_id)
+    }, [])
  
     const handleLogout = () => {               
         signOut(auth).then(() => {

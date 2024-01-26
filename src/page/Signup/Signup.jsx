@@ -15,8 +15,8 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [updateUserUid] = useGiveBuddyStore(
-      (state) => [state.updateUserUid]
+    const [updateUserUid, updateUserId] = useGiveBuddyStore(
+      (state) => [state.updateUserUid, state.updateUserId]
   )
  
     const onSubmit = async (e) => {
@@ -27,23 +27,24 @@ const Signup = () => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-          updateUserUid(user.uid)
+          updateUserUid(user.uid);
           axios
-          .post(`${API_URL}/registration`, {
-            "user_uid": user.uid,
-            "first_name": firstName,
-            "last_name": lastName, 
-            "email": email
-          }, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          .then((res) => {
-            console.log(res)
-            navigate("/login")
-          })
-          .catch((err) => console.log(err));
+            .post(`${API_URL}/registration`, {
+              "user_uid": user.uid,
+              "first_name": firstName,
+              "last_name": lastName, 
+              "email": email
+            }, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then((res) => {
+              console.log(res)
+              updateUserId(res.data.user_id)
+              navigate("/login")
+            })
+            .catch((err) => console.log(err));
         })
         .catch((error) => {
           const errorCode = error.code;
