@@ -29,3 +29,9 @@
   justify-content: center;
   margin: 2px;
 }
+
+#rc-page-card-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
