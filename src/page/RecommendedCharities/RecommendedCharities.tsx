@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { API_URL } from "../../constants/url";
 import { Charity, useGiveBuddyStore } from '../../store/store';
 
@@ -52,11 +53,6 @@ const RecommendedCharities = () => {
         <p id="rc-description">Here are some charities that we’ve picked out for you.</p>
         <p id="rc-description">You can visit the charity website and donate today or you can save it to donate for another time.</p>
       </div>
-      {/* {curMatchedCharities?.map((c) => {
-        return (
-          <h1>{c.toString()}</h1>
-        )
-      })} */}
       {curCharity !== undefined && (
         // <div>{curCharity.charity_name}</div>
         <div id="rc-page-card-container">
@@ -115,9 +111,14 @@ const RecommendedCharities = () => {
               <Typography gutterBottom variant="body2" id="rc-page-about-description">
                 {curCharity.overview}
               </Typography>
-              <Typography gutterBottom variant="body2">
+              <Link
+                to={{
+                  pathname: `/charity/${curCharity.charity_id}`
+                }}
+                id="rc-page-learn-more-link"
+              >
                 Learn More
-              </Typography>
+              </Link>
             </Box>
             <div id="rc-page-visit-button-container">
               <Button size="large" href={"https://" + curCharity.website} target="_blank" id="rc-page-visit-button">Visit Charity Website</Button>

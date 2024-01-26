@@ -72,6 +72,7 @@
   font-weight: 400;
   line-height: normal;
   color: #69726F;
+  margin-bottom: 20px;
 }
 
 #rc-page-score-container {
@@ -115,4 +116,14 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
+}
+
+#rc-page-learn-more-link {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; 
+  text-decoration-line: underline;
+  color: #254139;
+  padding-top: 40px;
 }

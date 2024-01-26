@@ -10,6 +10,7 @@ import Loading from './page/Loading/Loading';
 import RecommendedCharities from './page/RecommendedCharities/RecommendedCharities';
 import FindCharities from './page/FindCharities/FindCharities';
 import MyCharities from './page/MyCharities/MyCharities';
+import CharityDetail from './page/CharityDetail/CharityDetail';
  
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/recommended_charities" element={<RecommendedCharities/>}/>
               <Route path="/find_charities" element={<FindCharities/>}/>
               <Route path="/my_charities" element={<MyCharities/>}/>
+              <Route path="/charity/:id" element={<CharityDetail/>}/>
             </Routes>                    
         </section>
       </div>
