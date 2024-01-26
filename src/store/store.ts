@@ -1,5 +1,6 @@
 import { shallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
+import { persist } from 'zustand/middleware'
 
 interface GiveBuddyState {
   category: string[]
@@ -47,27 +48,31 @@ type GiveBuddyAction = {
   updateMatchedCharities: (matched_charities: GiveBuddyState['matched_charities']) => void
 }
 
-export const useGiveBuddyStore = createWithEqualityFn<GiveBuddyState & GiveBuddyAction>()((set) => ({
-  category: [],
-  subcategory_list: [],
-  transparency_score: undefined, 
-  cause_score: undefined, 
-  result_reporting_score: undefined,
-  location: "",
-  province: "",
-  city: "",
-  user_uid: "",
-  user_id: "",
-  matched_charities: [],
-  updateCategory: (newCategory) => set(() => ({ category: newCategory })),
-  updateSubcategory: (newSubcategory) => set(() => ({ subcategory_list: newSubcategory})),
-  updateTransparencyScore: (newScore) => set(() => ({ transparency_score: newScore })),
-  updateCauseScore: (newScore) => set(() => ({ cause_score: newScore })),
-  updateResultReportingScore: (newScore) => set(() => ({ result_reporting_score: newScore })),
-  updateLocation: (newLocation) => set(() => ({ location: newLocation })),
-  updateProvince: (newProvince) => set(() => ({ province: newProvince })),
-  updateCity: (newCity) => set(() => ({ city: newCity })),
-  updateUserUid: (newUserUid) => set(() => ({ user_uid: newUserUid })),
-  updateUserId: (newUserId) => set(() => ({ user_id: newUserId })),
-  updateMatchedCharities: (newMatchedCharities) => set(() => ({ matched_charities: newMatchedCharities })),
-}), shallow)
+export const useGiveBuddyStore = createWithEqualityFn<GiveBuddyState & GiveBuddyAction>()(persist(
+  (set) => ({
+    category: [],
+    subcategory_list: [],
+    transparency_score: undefined, 
+    cause_score: undefined, 
+    result_reporting_score: undefined,
+    location: "",
+    province: "",
+    city: "",
+    user_uid: "",
+    user_id: "",
+    matched_charities: [],
+    updateCategory: (newCategory) => set(() => ({ category: newCategory })),
+    updateSubcategory: (newSubcategory) => set(() => ({ subcategory_list: newSubcategory})),
+    updateTransparencyScore: (newScore) => set(() => ({ transparency_score: newScore })),
+    updateCauseScore: (newScore) => set(() => ({ cause_score: newScore })),
+    updateResultReportingScore: (newScore) => set(() => ({ result_reporting_score: newScore })),
+    updateLocation: (newLocation) => set(() => ({ location: newLocation })),
+    updateProvince: (newProvince) => set(() => ({ province: newProvince })),
+    updateCity: (newCity) => set(() => ({ city: newCity })),
+    updateUserUid: (newUserUid) => set(() => ({ user_uid: newUserUid })),
+    updateUserId: (newUserId) => set(() => ({ user_id: newUserId })),
+    updateMatchedCharities: (newMatchedCharities) => set(() => ({ matched_charities: newMatchedCharities })),
+  }), {
+    name: "give-buddy",
+  },
+))
