@@ -3,14 +3,16 @@ import {  signInWithEmailAndPassword   } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { NavLink, useNavigate } from 'react-router-dom'
 import "./Login.css"
+import axios from "axios";
+import { API_URL } from "../../constants/url";
 import { useGiveBuddyStore } from '../../store/store';
  
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [updateUserUid] = useGiveBuddyStore(
-        (state) => [state.updateUserUid]
+    const [updateUserUid, updateUserId, user_id] = useGiveBuddyStore(
+        (state) => [state.updateUserUid, state.updateUserId, state.user_id]
     )
        
     const onLogin = (e) => {
@@ -19,8 +21,18 @@ const Login = () => {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            navigate("/home")
             console.log(user);
+            updateUserUid(user.uid)
+            axios
+                .get(`${API_URL}/user_profile/${user.uid}`)
+                .then((res) => {
+                    console.log(res.data.user_id)
+                    updateUserId(res.data.user_id)
+                    console.log(user_id)
+                    navigate("/home")
+                })
+                .catch((err) => console.log(err));
+
         })
         .catch((error) => {
             const errorCode = error.code;

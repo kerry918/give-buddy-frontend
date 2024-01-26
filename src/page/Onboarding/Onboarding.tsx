@@ -15,14 +15,15 @@ const Onboarding = () => {
   const [curStep, setCurStep] = React.useState(1);
   const [curSubcategroy, setCurSubcategory] = React.useState(0)
 
-  const [ft_ranking, rr_ranking, ctc_ranking, category, subcategory_list, province, city, updateMatchedCharities] = useGiveBuddyStore(
-    (state) => [state.transparency_score, state.result_reporting_score, state.cause_score, state.category, state.subcategory_list, state.province, state.city, state.updateMatchedCharities]
+  const [ft_ranking, rr_ranking, ctc_ranking, category, subcategory_list, province, city, user_id, updateMatchedCharities] = useGiveBuddyStore(
+    (state) => [state.transparency_score, state.result_reporting_score, state.cause_score, state.category, state.subcategory_list, state.province, state.city, state.user_id, state.updateMatchedCharities]
   )
 
   const postOnboarding = () => {
     navigate("/loading")
+    console.log(user_id)
     axios
-      .post(`${API_URL}/onboarding/1`, {
+      .post(`${API_URL}/onboarding/${user_id}`, {
         "ft_ranking":ft_ranking,
         "rr_ranking":rr_ranking,
         "ctc_ranking":ctc_ranking,
