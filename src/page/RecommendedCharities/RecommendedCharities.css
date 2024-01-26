@@ -35,3 +35,84 @@
   justify-content: center;
   margin-top: 30px;
 }
+
+#rc-page-card {
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid #D7D7D7;
+  background: #FFF;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15), 0px 0px 5px 0px rgba(0, 0, 0, 0.05);
+}
+
+#rc-page-save-button-container {
+  display: flex;
+  align-items: start;
+}
+
+#rc-page-center-container {
+  padding-left: 26px;
+}
+
+#rc-page-about-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: #254139;
+}
+
+#rc-page-about-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #69726F;
+}
+
+#rc-page-score-container {
+  padding: 8px;
+  margin-top: 16px;
+}
+
+#rc-page-score-subcontainer {
+  width: 130px;
+}
+
+#rc-page-score-title {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 1px;
+  color: #254139;
+  text-align: center;
+}
+
+#rc-page-score-value {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #4E4E4E;
+}
+
+#rc-page-visit-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+#rc-page-visit-button {
+  border-radius: 4px;
+  background: #269271;
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
