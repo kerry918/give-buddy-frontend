@@ -52,8 +52,6 @@ const Signup = () => {
           console.log(errorCode, errorMessage);
             // ..
         });
- 
-   
     }
  
   return (
