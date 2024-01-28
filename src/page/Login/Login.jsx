@@ -11,8 +11,8 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [updateUserUid, updateUserId, user_id] = useGiveBuddyStore(
-        (state) => [state.updateUserUid, state.updateUserId, state.user_id]
+    const [updateUserUid, updateUserId, user_id, updateMatchedCharities] = useGiveBuddyStore(
+        (state) => [state.updateUserUid, state.updateUserId, state.user_id, state.updateMatchedCharities]
     )
        
     const onLogin = (e) => {
@@ -26,9 +26,9 @@ const Login = () => {
             axios
                 .get(`${API_URL}/user_profile/${user.uid}`)
                 .then((res) => {
-                    console.log(res.data.user_id)
                     updateUserId(res.data.user_id)
-                    console.log(user_id)
+                    console.log(res.data)
+                    updateMatchedCharities(res.data.user_data.matched_charities)
                     navigate("/home")
                 })
                 .catch((err) => console.log(err));
