@@ -19,6 +19,7 @@ const StepFour = () => {
       setShowProvince(true)
     } 
     else {
+      updateProvince("")
       setShowProvince(false)
     }
     updateLocation(choice)
