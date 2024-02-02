@@ -138,6 +138,7 @@ const RecommendedCharities = () => {
                   pathname: `/charity/${curCharity.charity_id}`
                 }}
                 id="rc-page-learn-more-link"
+                state={{prev: "recommendation"}}
               >
                 Learn More
               </Link>
