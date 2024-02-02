@@ -29,3 +29,29 @@
   justify-content: center;
   margin: 2px;
 }
+
+#fc-page-card-container {
+  margin-top: 30px;
+  border-radius: 8px;
+  border: 1px solid #D7D7D7;
+  background: #FFF;
+}
+
+#fc-page-logo {
+  width: 120px;
+  height: auto;
+  padding: 2%;
+}
+
+#fc-page-save-button {
+  color: #269271;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  text-transform: capitalize;
+  border-radius: 4px;
+  border: 1px solid #269271;
+  padding: 8px 16px;
+  margin-bottom: 40;
+}
