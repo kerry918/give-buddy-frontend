@@ -9,14 +9,15 @@ import StepFour from './StepFour';
 
 import { useGiveBuddyStore } from '../../store/store';
 import { API_URL } from "../../constants/url";
+import categories from '../../constants/categories';
 
 const Onboarding = () => {
   const navigate = useNavigate();
   const [curStep, setCurStep] = React.useState(1);
   const [curSubcategroy, setCurSubcategory] = React.useState(0)
 
-  const [ft_ranking, rr_ranking, ctc_ranking, category, subcategory_list, province, city, user_id, updateMatchedCharities] = useGiveBuddyStore(
-    (state) => [state.transparency_score, state.result_reporting_score, state.cause_score, state.category, state.subcategory_list, state.province, state.city, state.user_id, state.updateMatchedCharities]
+  const [ft_ranking, rr_ranking, ctc_ranking, category, subcategory_list, province, city, user_id, updateMatchedCharities, updateSubcategory] = useGiveBuddyStore(
+    (state) => [state.transparency_score, state.result_reporting_score, state.cause_score, state.category, state.subcategory_list, state.province, state.city, state.user_id, state.updateMatchedCharities, state.updateSubcategory]
   )
 
   const postOnboarding = () => {
@@ -97,6 +98,23 @@ const Onboarding = () => {
     }
   }
 
+  const handleSkipClick = () => {
+    console.log(curStep)
+    if (curStep === 3){
+      const newSubcategory = [...subcategory_list]
+      const newSubcategorySet = new Set(newSubcategory)
+      const curSub = category[curSubcategroy]
+      const filteredSubcategory = categories.filter((c) => c.name === curSub)
+      filteredSubcategory[0].subcategories.map((sub) => {
+        newSubcategorySet.add(sub.name)
+      })
+      updateSubcategory(Array.from(newSubcategorySet))
+      handleNextClick()
+    } else {
+      handleNextClick()
+    }
+  }
+
   React.useEffect(() => {
     console.log(category)
   }, [category])
@@ -141,7 +159,7 @@ const Onboarding = () => {
           <div id="onboarding-page-left-link-container">
             <div id="onboarding-page-left-link-group">
               <a onClick={handleBackClick}><p id="onboarding-page-left-link">Back</p></a>
-              <a onClick={handleNextClick}><p id="onboarding-page-left-link">Skip question</p></a>
+              <a onClick={handleSkipClick}><p id="onboarding-page-left-link">Skip question</p></a>
             </div>
           </div>
         </div>
