@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { Button, CardActionArea, CircularProgress } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const FindCharities = () => {
   const [charityList, setCharityList] = React.useState<Charity[] | null>(null)
@@ -31,29 +32,38 @@ const FindCharities = () => {
         {charityList ? charityList?.map((c) => {
           return (
             <Card sx={{ width: 850 }} id="fc-page-card-container">
-              <CardActionArea href={`/charity/${c.charity_id}`}>
-                <CardContent>
-                    <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <img src={c.logo} id="fc-page-logo"/>
-                        <Stack direction="column" spacing={1} alignItems="start" style={{width: 500}}>
-                          <Typography gutterBottom variant="h5" component="div">
-                            {c.charity_name}
-                          </Typography>
-                          <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
-                            {c.sub_category.split(", ").map((sc) => {
-                              return (
-                                <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
-                              )
-                            })}
+              <Link
+                to={{
+                  pathname: `/charity/${c.charity_id}`
+                }}
+                id="fc-page-charity-detail-link"
+                state={{prev: "charity directory"}}
+              >
+                <CardActionArea>
+                  <CardContent>
+                      <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+                        <Stack direction="row" spacing={1} alignItems="center">
+                          <img src={c.logo} id="fc-page-logo"/>
+                          <Stack direction="column" spacing={1} alignItems="start" style={{width: 500}}>
+                            <Typography gutterBottom variant="h5" component="div">
+                              {c.charity_name}
+                            </Typography>
+                            <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
+                              {c.sub_category.split(", ").map((sc) => {
+                                return (
+                                  <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
+                                )
+                              })}
+                            </Stack>
                           </Stack>
                         </Stack>
-                      </Stack>
 
-                      <Button id="fc-page-save-button" variant="outlined">Save</Button>
-                    </Stack>
-                </CardContent>
-              </CardActionArea>
+                        <Button id="fc-page-save-button" variant="outlined">Save</Button>
+                      </Stack>
+                  </CardContent>
+                </CardActionArea>
+              </Link>
+
             </Card>
           )
         }) : 
