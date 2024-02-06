@@ -11,10 +11,10 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [updateUserUid, updateUserId, user_id, updateMatchedCharities] = useGiveBuddyStore(
-        (state) => [state.updateUserUid, state.updateUserId, state.user_id, state.updateMatchedCharities]
+    const [updateUserUid, updateUserId, user_id, updateMatchedCharities, matched_charities] = useGiveBuddyStore(
+        (state) => [state.updateUserUid, state.updateUserId, state.user_id, state.updateMatchedCharities, state.matched_charities]
     )
-       
+
     const onLogin = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
@@ -29,7 +29,11 @@ const Login = () => {
                     updateUserId(res.data.user_id)
                     console.log(res.data)
                     updateMatchedCharities(res.data.user_data.matched_charities)
-                    navigate("/home")
+                    if(res.data.user_data.matched_charities){
+                        navigate("/recommended_charities")
+                    } else {
+                        navigate("/home")
+                    }
                 })
                 .catch((err) => console.log(err));
 
