@@ -47,38 +47,37 @@ const FindCharities = () => {
         {charityList ? charityList?.map((c) => {
           return (
             <Card sx={{ width: 850 }} id="fc-page-card-container">
-              <Link
-                to={{
-                  pathname: `/charity/${c.charity_id}`
-                }}
-                id="fc-page-charity-detail-link"
-                state={{prev: "charity directory"}}
-              >
-                <CardActionArea>
-                  <CardContent>
-                      <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <img src={c.logo} id="fc-page-logo"/>
-                          <Stack direction="column" spacing={1} alignItems="start" style={{width: 500}}>
+              <CardActionArea>
+                <CardContent>
+                    <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <img src={c.logo} id="fc-page-logo"/>
+                        <Stack direction="column" spacing={1} alignItems="start" style={{width: 500}}>
+                          <Link
+                            to={{
+                              pathname: `/charity/${c.charity_id}`
+                            }}
+                            id="fc-page-charity-detail-link"
+                            state={{prev: "charity directory"}}
+                          >
                             <Typography gutterBottom variant="h5" component="div">
                               {c.charity_name}
                             </Typography>
-                            <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
-                              {c.sub_category.split(", ").map((sc) => {
-                                return (
-                                  <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
-                                )
-                              })}
-                            </Stack>
+                          </Link>
+                          <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
+                            {c.sub_category.split(", ").map((sc) => {
+                              return (
+                                <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
+                              )
+                            })}
                           </Stack>
                         </Stack>
-
-                        <Button id="fc-page-save-button" variant="outlined" onClick={() => handleSaveCharity(c.charity_id)}>Save</Button>
                       </Stack>
-                  </CardContent>
-                </CardActionArea>
-              </Link>
 
+                      <Button id="fc-page-save-button" variant="outlined" onClick={() => handleSaveCharity(c.charity_id)}>Save</Button>
+                    </Stack>
+                </CardContent>
+              </CardActionArea>
             </Card>
           )
         }) : 
