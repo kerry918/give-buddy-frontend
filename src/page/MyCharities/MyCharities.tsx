@@ -17,21 +17,32 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { Button, CardActionArea, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
+import CreateIcon from '@mui/icons-material/Create';
 
 const MyCharities = () => {
   const [value, setValue] = React.useState('1');
   const savedCharities = [3,5,13,45]
+  const donatedCharities = [{1: 300}, {40: 200}, {30: null}, {45: 300}] 
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
-  const [charityList, setCharityList] = React.useState<Charity[] | null>(null)
+  const [savedCharityList, setSavedCharityList] = React.useState<Charity[] | null>(null)
+  const [donatedCharityList, setDonatedCharityList] = React.useState<Charity[] | null>(null)
 
   React.useEffect(() => {
+    const donatedCharitiesId: string[] = []
+    donatedCharities.map((c) => {
+      donatedCharitiesId.push(Object.keys(c)[0])
+    })
+    console.log(donatedCharities.filter((d) => Object.keys(d).includes("40"))[0])
     axios
       .get(`${API_URL}/charities/`)
-      .then((res) => setCharityList(res.data.charity_list.filter((c: Charity) => savedCharities.includes(c.charity_id as number))))
+      .then((res) => {
+        setSavedCharityList(res.data.charity_list.filter((c: Charity) => savedCharities.includes(c.charity_id as number)))
+        setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id.toString())))
+      })
       .catch((err) => console.log(err));
   }, [])
 
@@ -50,7 +61,7 @@ const MyCharities = () => {
               </TabList>
             </Box>
             <TabPanel value="1">
-              {charityList ? charityList?.map((c) => {
+              {savedCharityList ? savedCharityList?.map((c) => {
                 return (
                   <Card sx={{ width: 720 }} id="fc-page-card-container">
                     <Link
@@ -90,7 +101,33 @@ const MyCharities = () => {
                 <CircularProgress/>
               </div>}
             </TabPanel>
-            <TabPanel value="2">Donated Charities</TabPanel>
+            <TabPanel value="2">
+              {donatedCharityList ? donatedCharityList.map((c) => {
+                return (
+                  <div id="mc-donated-container">
+                    <div style={{display: "flex", flexDirection: "row"}}>
+                      <div id="mc-donated-logo">
+                        <img src={c.logo} width="60"/>
+                      </div>
+                      <h1 id="mc-donated-charity-name">{c.charity_name}</h1>
+                    </div>
+                    
+                    <div id="mc-donated-amount-edit-container">
+                      {(donatedCharities.filter((d) => Object.keys(d).includes(c.charity_id.toString())) !== undefined) 
+                      && (Object.values(donatedCharities.filter((d) => Object.keys(d).includes(c.charity_id.toString()))[0])[0] !== null) 
+                      && (
+                        <h1 id="mc-donated-amount">$ {Object.values(donatedCharities.filter((d) => Object.keys(d).includes(c.charity_id.toString()))[0])[0]} donated</h1>
+                      )}
+                      <CreateIcon/>
+                    </div>
+                  </div>
+                )
+              }) : 
+              <div style={{paddingTop: 300}}>
+                <CircularProgress/>
+              </div>
+              }
+            </TabPanel>
           </TabContext>
         </div>
       </div>
