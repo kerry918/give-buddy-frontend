@@ -39,7 +39,7 @@ const CharityDetail = (props: any) => {
           <Breadcrumbs aria-label="breadcrumb">
             <Link
               underline="hover"
-              href={prev === "recommendation" ? "/recommended_charities" : "/find_charities"}
+              href={prev === "recommendation" ? "/recommended_charities" : prev === "charity directory" ? "/find_charities" : "/my_charities"}
               style={{ textTransform: "capitalize", color: "#717171"}}
             >
               {prev}
