@@ -23,6 +23,9 @@ const CharityDetail = (props: any) => {
   const location = useLocation()
   const { prev } = location.state
   const [curCharity, setCurCharity] = React.useState<Charity|undefined>(undefined)
+  const [user_id] = useGiveBuddyStore(
+    (state) => [state.user_id]
+  )
 
   React.useEffect(() => {
     axios
@@ -30,6 +33,19 @@ const CharityDetail = (props: any) => {
       .then((res) => setCurCharity(res.data))
       .catch((err) => console.log(err));
   }, [])
+
+  const handleSaveCharity = (charity_id: Number | undefined) => {
+    if (charity_id){
+      axios
+      .post(`${API_URL}/saved_charities/${user_id}`, {
+        "saved_charity":charity_id,
+      })
+      .then((res) => {
+          console.log(res)
+      })
+      .catch((err) => console.log(err));
+    }
+  } 
 
   return (
     <div id="cd-page">
@@ -97,7 +113,7 @@ const CharityDetail = (props: any) => {
                   </Stack>
                 </Stack>
                 <div id="cd-page-save-button-container">
-                  <Button id="cd-page-save-button" variant="outlined">Save</Button>
+                  <Button id="cd-page-save-button" variant="outlined" onClick={() => handleSaveCharity(curCharity?.charity_id)}>Save</Button>
                 </div>
               </div>
             </Box>

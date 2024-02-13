@@ -4,7 +4,7 @@ import { API_URL } from "../../constants/url";
 
 import "./FindCharities.css"
 import NavBar from "../NavBar/NavBar"
-import { Charity } from "../../store/store"
+import { Charity, useGiveBuddyStore } from '../../store/store';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -16,12 +16,27 @@ import { Link } from "react-router-dom";
 const FindCharities = () => {
   const [charityList, setCharityList] = React.useState<Charity[] | null>(null)
 
+  const [user_id] = useGiveBuddyStore(
+    (state) => [state.user_id]
+  )
+
   React.useEffect(() => {
     axios
       .get(`${API_URL}/charities/`)
       .then((res) => setCharityList(res.data.charity_list))
       .catch((err) => console.log(err));
   }, [])
+
+  const handleSaveCharity = (charity_id: Number) => {
+    axios
+    .post(`${API_URL}/saved_charities/${user_id}`, {
+      "saved_charity":charity_id,
+    })
+    .then((res) => {
+        console.log(res)
+    })
+    .catch((err) => console.log(err));
+  } 
 
   return (
     <div id="fc-page">
@@ -58,7 +73,7 @@ const FindCharities = () => {
                           </Stack>
                         </Stack>
 
-                        <Button id="fc-page-save-button" variant="outlined">Save</Button>
+                        <Button id="fc-page-save-button" variant="outlined" onClick={() => handleSaveCharity(c.charity_id)}>Save</Button>
                       </Stack>
                   </CardContent>
                 </CardActionArea>

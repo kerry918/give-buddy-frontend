@@ -19,8 +19,8 @@ import { financialTransparency, resultsReporting } from "../../constants/score";
 import { Button } from "@mui/material";
 
 const RecommendedCharities = () => {
-  const [matched_charities, user_uid, updateMatchedCharities] = useGiveBuddyStore(
-    (state) => [state.matched_charities, state.user_uid, state.updateMatchedCharities]
+  const [matched_charities, user_uid, updateMatchedCharities, user_id] = useGiveBuddyStore(
+    (state) => [state.matched_charities, state.user_uid, state.updateMatchedCharities, state.user_id]
   )
 
   const [curCharity, setCurCharity] = React.useState<Charity|undefined>(undefined)
@@ -59,6 +59,17 @@ const RecommendedCharities = () => {
       setCurCharityIdx(curCharityIdx+1)
     }
   }
+
+  const handleSaveCharity = (charity_id: Number) => {
+    axios
+    .post(`${API_URL}/saved_charities/${user_id}`, {
+      "saved_charity":charity_id,
+    })
+    .then((res) => {
+        console.log(res)
+    })
+    .catch((err) => console.log(err));
+  } 
 
   return (
     <div id="rc-page">
@@ -121,7 +132,7 @@ const RecommendedCharities = () => {
                   </Stack>
                 </Stack>
                 <div id="rc-page-save-button-container">
-                  <Button id="rc-page-save-button" variant="outlined">Save</Button>
+                  <Button id="rc-page-save-button" variant="outlined" onClick={() => handleSaveCharity(curCharity.charity_id)}>Save</Button>
                 </div>
               </div>
             </Box>
