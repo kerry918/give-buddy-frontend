@@ -9,7 +9,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { Charity } from "../../store/store"
+import { Charity, useGiveBuddyStore } from '../../store/store';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -21,13 +21,16 @@ import CreateIcon from '@mui/icons-material/Create';
 
 const MyCharities = () => {
   const [value, setValue] = React.useState('1');
-  const savedCharities = [3,5,13,45]
   const donatedCharities = [{1: 300}, {40: 200}, {30: null}, {45: 300}] 
+  const [user_id] = useGiveBuddyStore(
+    (state) => [state.user_id]
+  )
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
+  const [savedCharities, setSavedCharities] = React.useState<number[]>([])
   const [savedCharityList, setSavedCharityList] = React.useState<Charity[] | null>(null)
   const [donatedCharityList, setDonatedCharityList] = React.useState<Charity[] | null>(null)
 
@@ -36,7 +39,13 @@ const MyCharities = () => {
     donatedCharities.map((c) => {
       donatedCharitiesId.push(Object.keys(c)[0])
     })
-    console.log(donatedCharities.filter((d) => Object.keys(d).includes("40"))[0])
+    axios
+    .get(`${API_URL}/my_charities/${user_id}`)
+    .then((res) => {
+      setSavedCharities(res.data)
+    })
+    .catch((err) => console.log(err));
+
     axios
       .get(`${API_URL}/charities/`)
       .then((res) => {
@@ -44,7 +53,22 @@ const MyCharities = () => {
         setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id.toString())))
       })
       .catch((err) => console.log(err));
-  }, [])
+  }, [value])
+
+  React.useEffect(() => {
+    const donatedCharitiesId: string[] = []
+    donatedCharities.map((c) => {
+      donatedCharitiesId.push(Object.keys(c)[0])
+    })
+
+    axios
+    .get(`${API_URL}/charities/`)
+    .then((res) => {
+      setSavedCharityList(res.data.charity_list.filter((c: Charity) => savedCharities.includes(c.charity_id as number)))
+      setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id.toString())))
+    })
+    .catch((err) => console.log(err));
+  }, [savedCharities])
 
   return (
     <div id="mc-page">
