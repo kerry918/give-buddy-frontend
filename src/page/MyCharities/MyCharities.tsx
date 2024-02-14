@@ -18,6 +18,12 @@ import Stack from '@mui/material/Stack';
 import { Button, CardActionArea, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 import CreateIcon from '@mui/icons-material/Create';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const MyCharities = () => {
   const [value, setValue] = React.useState('1');
@@ -34,6 +40,15 @@ const MyCharities = () => {
   const [donatedCharitiesId, setDonatedCharitiesId] = React.useState<number[]>([])
   const [savedCharityList, setSavedCharityList] = React.useState<Charity[] | null>(null)
   const [donatedCharityList, setDonatedCharityList] = React.useState<Charity[] | null>(null)
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   React.useEffect(() => {
     axios
@@ -161,8 +176,52 @@ const MyCharities = () => {
                       && (
                         <h1 id="mc-donated-amount">$ {Object.values(donatedCharities.filter((d) => d[0] === c.charity_id as number))[0][1]} donated</h1>
                       )}
-                      <CreateIcon/>
+                      <div onClick={handleClickOpen}>
+                        <CreateIcon/>
+                      </div>
                     </div>
+
+                    <Dialog
+                      onClose={handleClose}
+                      open={open}
+                      BackdropProps ={{ style: { backgroundColor: 'rgba(51, 51, 51, 0.50)' } }}
+                    >
+                      <DialogTitle id="customized-dialog-title">
+                        Modal title
+                      </DialogTitle>
+                      <IconButton
+                        aria-label="close"
+                        onClick={handleClose}
+                        sx={{
+                          position: 'absolute',
+                          right: 8,
+                          top: 8,
+                        }}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                      <DialogContent dividers>
+                        <Typography gutterBottom>
+                          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+                          consectetur ac, vestibulum at eros.
+                        </Typography>
+                        <Typography gutterBottom>
+                          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+                          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+                        </Typography>
+                        <Typography gutterBottom>
+                          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+                          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+                          ullamcorper nulla non metus auctor fringilla.
+                        </Typography>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                          Save changes
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </div>
                 )
               }) : 
