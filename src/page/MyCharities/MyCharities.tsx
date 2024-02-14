@@ -21,7 +21,6 @@ import CreateIcon from '@mui/icons-material/Create';
 
 const MyCharities = () => {
   const [value, setValue] = React.useState('1');
-  const donatedCharities = [{1: 300}, {40: 200}, {30: null}, {45: 300}] 
   const [user_id] = useGiveBuddyStore(
     (state) => [state.user_id]
   )
@@ -31,14 +30,13 @@ const MyCharities = () => {
   };
 
   const [savedCharities, setSavedCharities] = React.useState<number[]>([])
+  const [donatedCharities, setDonatedCharities] = React.useState<number[][]>([])
   const [savedCharityList, setSavedCharityList] = React.useState<Charity[] | null>(null)
   const [donatedCharityList, setDonatedCharityList] = React.useState<Charity[] | null>(null)
 
   React.useEffect(() => {
-    const donatedCharitiesId: string[] = []
-    donatedCharities.map((c) => {
-      donatedCharitiesId.push(Object.keys(c)[0])
-    })
+    const donatedCharitiesId: number[] = []
+
     axios
     .get(`${API_URL}/my_charities/${user_id}`)
     .then((res) => {
@@ -47,25 +45,42 @@ const MyCharities = () => {
     .catch((err) => console.log(err));
 
     axios
+    .get(`${API_URL}/my_donated_charities/${user_id}`)
+    .then((res) => {
+      setDonatedCharities(res.data)
+      res.data.map((c: number[]) => {
+        donatedCharitiesId.push(c[0])
+      })
+    })
+    .catch((err) => console.log(err));
+
+    axios
       .get(`${API_URL}/charities/`)
       .then((res) => {
         setSavedCharityList(res.data.charity_list.filter((c: Charity) => savedCharities.includes(c.charity_id as number)))
-        setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id.toString())))
+        setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id as number)))
       })
       .catch((err) => console.log(err));
   }, [value])
 
   React.useEffect(() => {
-    const donatedCharitiesId: string[] = []
-    donatedCharities.map((c) => {
-      donatedCharitiesId.push(Object.keys(c)[0])
+    const donatedCharitiesId: number[] = []
+
+    axios
+    .get(`${API_URL}/my_donated_charities/${user_id}`)
+    .then((res) => {
+      setDonatedCharities(res.data)
+      res.data.map((c: number[]) => {
+        donatedCharitiesId.push(c[0])
+      })
     })
+    .catch((err) => console.log(err));
 
     axios
     .get(`${API_URL}/charities/`)
     .then((res) => {
       setSavedCharityList(res.data.charity_list.filter((c: Charity) => savedCharities.includes(c.charity_id as number)))
-      setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id.toString())))
+      setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id as number)))
     })
     .catch((err) => console.log(err));
   }, [savedCharities])
@@ -137,10 +152,10 @@ const MyCharities = () => {
                     </div>
                     
                     <div id="mc-donated-amount-edit-container">
-                      {(donatedCharities.filter((d) => Object.keys(d).includes(c.charity_id.toString())) !== undefined) 
-                      && (Object.values(donatedCharities.filter((d) => Object.keys(d).includes(c.charity_id.toString()))[0])[0] !== null) 
+                      {(donatedCharities.filter((d) => d[0] === c.charity_id as number)) !== undefined
+                      && ((donatedCharities.filter((d) => d[0] === c.charity_id as number))[0].length === 2)
                       && (
-                        <h1 id="mc-donated-amount">$ {Object.values(donatedCharities.filter((d) => Object.keys(d).includes(c.charity_id.toString()))[0])[0]} donated</h1>
+                        <h1 id="mc-donated-amount">$ {Object.values(donatedCharities.filter((d) => d[0] === c.charity_id as number))[0][1]} donated</h1>
                       )}
                       <CreateIcon/>
                     </div>

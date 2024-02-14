@@ -45,7 +45,20 @@ const CharityDetail = (props: any) => {
       })
       .catch((err) => console.log(err));
     }
-  } 
+  }
+
+  const handleDonateCharity = (charity_id: Number | undefined) => {
+    if (charity_id){
+      axios
+      .post(`${API_URL}/update_donated_charities/${user_id}`, {
+        "donated_charity_id":charity_id
+      })
+      .then((res) => {
+          console.log(res)
+      })
+      .catch((err) => console.log(err));
+    }
+  }
 
   return (
     <div id="cd-page">
@@ -119,6 +132,16 @@ const CharityDetail = (props: any) => {
             </Box>
             <div id="cd-page-visit-button-container">
               <Button size="large" href={"https://" + curCharity?.website} target="_blank" id="cd-page-visit-button">Visit Charity Website</Button>
+            </div>
+            <div id="cd-page-donate-container">
+              <div>
+                <h1 id="cd-page-donate-header">Did you donate to {curCharity?.charity_name}?</h1>
+                <h1 id="cd-page-donate-desc">Let us know and we’ll help you keep track of your donations.</h1>
+              </div>
+              <div>
+                <button id="cd-page-donate-button" onClick={() => handleDonateCharity(curCharity?.charity_id)}>Yes</button>
+                <button id="cd-page-donate-button">No</button>
+              </div>
             </div>
             <Box sx={{ pt: 2 }}>
               <Typography gutterBottom variant="body2" id="cd-page-about-title">
