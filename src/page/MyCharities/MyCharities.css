@@ -81,3 +81,15 @@
   color: #717171;
   padding-right: 40px;
 }
+
+#mc-donated-modal-title {
+  padding: 5px 20px;
+}
+
+#mc-donated-amount-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #000;
+}

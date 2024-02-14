@@ -24,6 +24,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const MyCharities = () => {
   const [value, setValue] = React.useState('1');
@@ -41,13 +43,41 @@ const MyCharities = () => {
   const [savedCharityList, setSavedCharityList] = React.useState<Charity[] | null>(null)
   const [donatedCharityList, setDonatedCharityList] = React.useState<Charity[] | null>(null)
 
+  const [modalCharity, setModalCharity] = React.useState<Charity | undefined>(undefined)
+
+  const [amount, setAmount] = React.useState<number>(0);
+
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = (id: number) => {
+    axios
+    .get(`${API_URL}/charities/`)
+    .then((res) => {
+      setModalCharity(res.data.charity_list.filter((c: Charity) => c.charity_id === id)[0])
+      setOpen(true);
+    })
+    .catch((err) => console.log(err));
   };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSave = (charity_id: number) => {
+    axios
+    .post(`${API_URL}/update_donated_charities/${user_id}`, {
+      "donated_charity_id":charity_id, 
+      "donated_amount": amount
+    })
+    .then((res) => {
+        console.log(res)
+        setOpen(false);
+    })
+    .catch((err) => console.log(err));
+  }
+
+  const handleInputChange = (e: any) => {
+    setAmount(e.target.value);
   };
 
   React.useEffect(() => {
@@ -176,52 +206,54 @@ const MyCharities = () => {
                       && (
                         <h1 id="mc-donated-amount">$ {Object.values(donatedCharities.filter((d) => d[0] === c.charity_id as number))[0][1]} donated</h1>
                       )}
-                      <div onClick={handleClickOpen}>
+                      <div onClick={() => handleClickOpen(c.charity_id as number)}>
                         <CreateIcon/>
                       </div>
                     </div>
-
-                    <Dialog
-                      onClose={handleClose}
-                      open={open}
-                      BackdropProps ={{ style: { backgroundColor: 'rgba(51, 51, 51, 0.50)' } }}
-                    >
-                      <DialogTitle id="customized-dialog-title">
-                        Modal title
-                      </DialogTitle>
-                      <IconButton
-                        aria-label="close"
-                        onClick={handleClose}
-                        sx={{
-                          position: 'absolute',
-                          right: 8,
-                          top: 8,
-                        }}
+                    {modalCharity && (
+                      <Dialog
+                        onClose={handleClose}
+                        open={open}
+                        BackdropProps ={{ style: { backgroundColor: 'rgba(51, 51, 51, 0.50)' } }}
+                        maxWidth="sm"
+                        fullWidth={true}
                       >
-                        <CloseIcon />
-                      </IconButton>
-                      <DialogContent dividers>
-                        <Typography gutterBottom>
-                          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                          consectetur ac, vestibulum at eros.
-                        </Typography>
-                        <Typography gutterBottom>
-                          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                        </Typography>
-                        <Typography gutterBottom>
-                          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                          ullamcorper nulla non metus auctor fringilla.
-                        </Typography>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button autoFocus onClick={handleClose}>
-                          Save changes
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
+                        <DialogTitle id="mc-donated-modal-title">
+                          <div style={{display: "flex", flexDirection: "row"}}>
+                            <div id="mc-donated-logo">
+                              <img src={modalCharity.logo} width="60"/>
+                            </div>
+                            <h1 id="mc-donated-charity-name">{modalCharity.charity_name}</h1>
+                          </div>
+                        </DialogTitle>
+                        <IconButton
+                          aria-label="close"
+                          onClick={handleClose}
+                          sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                          }}
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                        <DialogContent dividers>
+                          <h1 id="mc-donated-amount-title">Amount Donated</h1>
+                          <TextField
+                            id="outlined-start-adornment"
+                            InputProps={{
+                              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                            }}
+                            onChange={handleInputChange}
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button autoFocus onClick={() => handleSave(modalCharity.charity_id as number)}>
+                            Save changes
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    )}
                   </div>
                 )
               }) : 
