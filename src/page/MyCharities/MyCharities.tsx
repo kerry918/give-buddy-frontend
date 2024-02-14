@@ -31,51 +31,55 @@ const MyCharities = () => {
 
   const [savedCharities, setSavedCharities] = React.useState<number[]>([])
   const [donatedCharities, setDonatedCharities] = React.useState<number[][]>([])
+  const [donatedCharitiesId, setDonatedCharitiesId] = React.useState<number[]>([])
   const [savedCharityList, setSavedCharityList] = React.useState<Charity[] | null>(null)
   const [donatedCharityList, setDonatedCharityList] = React.useState<Charity[] | null>(null)
 
   React.useEffect(() => {
-    const donatedCharitiesId: number[] = []
-
     axios
     .get(`${API_URL}/my_charities/${user_id}`)
     .then((res) => {
       setSavedCharities(res.data)
     })
+    .catch((err) => console.log(err))
+  }, [])
+
+  React.useEffect(() => {
+    axios
+    .get(`${API_URL}/my_donated_charities/${user_id}`)
+    .then((res) => {
+      setDonatedCharities(res.data)
+      donatedCharities.map((c: number[]) => {
+        const newList = [...donatedCharitiesId, c[0]]
+        setDonatedCharitiesId(newList)
+      })
+    })
     .catch((err) => console.log(err));
+  }, [])
+
+  React.useEffect(() => {
+    axios
+    .get(`${API_URL}/my_charities/${user_id}`)
+    .then((res) => {
+      setSavedCharities(res.data)
+    })
+    .catch((err) => console.log(err))
 
     axios
     .get(`${API_URL}/my_donated_charities/${user_id}`)
     .then((res) => {
       setDonatedCharities(res.data)
-      res.data.map((c: number[]) => {
-        donatedCharitiesId.push(c[0])
+      const newList: React.SetStateAction<number[]> = []
+      donatedCharities.map((c: number[]) => {
+        newList.push(c[0])
+        setDonatedCharitiesId(newList)
       })
     })
     .catch((err) => console.log(err));
-
-    axios
-      .get(`${API_URL}/charities/`)
-      .then((res) => {
-        setSavedCharityList(res.data.charity_list.filter((c: Charity) => savedCharities.includes(c.charity_id as number)))
-        setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id as number)))
-      })
-      .catch((err) => console.log(err));
   }, [value])
 
   React.useEffect(() => {
-    const donatedCharitiesId: number[] = []
-
-    axios
-    .get(`${API_URL}/my_donated_charities/${user_id}`)
-    .then((res) => {
-      setDonatedCharities(res.data)
-      res.data.map((c: number[]) => {
-        donatedCharitiesId.push(c[0])
-      })
-    })
-    .catch((err) => console.log(err));
-
+    console.log(donatedCharitiesId)
     axios
     .get(`${API_URL}/charities/`)
     .then((res) => {
@@ -83,7 +87,7 @@ const MyCharities = () => {
       setDonatedCharityList(res.data.charity_list.filter((c: Charity) => donatedCharitiesId.includes(c.charity_id as number)))
     })
     .catch((err) => console.log(err));
-  }, [savedCharities])
+  }, [savedCharities, donatedCharitiesId])
 
   return (
     <div id="mc-page">
