@@ -121,7 +121,7 @@ const Signup = () => {
                   )} 
               </div>
 
-              <div id="signup-form-item">
+              <div id="signup-form-item" style={{marginTop: error !== "" ? "5px" : "20px"}}>
                   <label htmlFor="password">
                       Password
                   </label>
