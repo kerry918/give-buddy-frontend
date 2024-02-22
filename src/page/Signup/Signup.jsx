@@ -8,6 +8,7 @@ import axios from "axios";
 import { API_URL } from "../../constants/url";
 import { useGiveBuddyStore } from '../../store/store';
 import Logo from "../../assets/GiveBuddylogo.png"
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Signup = () => {
     const [updateUserUid, updateUserId] = useGiveBuddyStore(
       (state) => [state.updateUserUid, state.updateUserId]
   )
+  const [error, setError] = useState('')
  
     const onSubmit = async (e) => {
       e.preventDefault()
@@ -49,8 +51,11 @@ const Signup = () => {
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
+          // const errorMessage = error.message;
+          if (errorCode.split("/")[1] === "email-already-in-use"){
+            setError("Email address is already taken")
+          }
+          console.log(errorCode);
             // ..
         });
     }
@@ -105,8 +110,15 @@ const Signup = () => {
                       label="Email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}  
-                      required                                                    
+                      required  
+                      style={{borderColor: error !== "" ? "#D72C0D" : "#AEB4B9"}}                                                         
                   />
+                  {error !== "" && (
+                    <div style={{display:"flex", flexDirection: "row", alignItems: "center", marginBottom: "20px"}}>
+                      <ErrorRoundedIcon sx={{ color: "#D72C0D" }} />
+                      <h1 id="signup-form-error">{error}</h1>
+                    </div>
+                  )} 
               </div>
 
               <div id="signup-form-item">
@@ -119,7 +131,7 @@ const Signup = () => {
                       label="Create password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)} 
-                      required                              
+                      required                      
                   />
               </div>                                             
               
