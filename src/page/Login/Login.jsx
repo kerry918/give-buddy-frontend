@@ -6,6 +6,7 @@ import "./Login.css"
 import axios from "axios";
 import { API_URL } from "../../constants/url";
 import { useGiveBuddyStore } from '../../store/store';
+import Logo from "../../assets/GiveBuddylogo.png"
  
 const Login = () => {
     const navigate = useNavigate();
@@ -53,6 +54,7 @@ const Login = () => {
         
         <div id="login-page">    
           <div id="login-container">
+            <img src={Logo}/>
             <p id="login-main-text">Log into Your Account</p>       
             <p id="login-description">Discover your favourite charities with us!</p>                                                                    
             <form id="login-form">                                                                                           
