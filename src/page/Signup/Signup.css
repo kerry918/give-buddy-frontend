@@ -55,6 +55,7 @@
 #signup-form-name-field {
   display: flex;
   flex-direction: row;
+  margin-bottom: 20px;
 }
 
 #signup-form-item {
