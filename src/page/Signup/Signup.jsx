@@ -7,7 +7,8 @@ import { useCreateUser } from '../../utils/utils';
 import axios from "axios";
 import { API_URL } from "../../constants/url";
 import { useGiveBuddyStore } from '../../store/store';
- 
+import Logo from "../../assets/GiveBuddylogo.png"
+
 const Signup = () => {
     const navigate = useNavigate();
  
@@ -62,6 +63,7 @@ const Signup = () => {
 
       <div id="signup-page">    
         <div id="signup-container">
+          <img src={Logo}/>
           <p id="signup-main-text">Create an Account</p>       
           <p id="signup-description">Discover your favourite charities with us!</p>                                                                    
           <form id="signup-form">   
