@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_URL } from "../../constants/url";
 import { useGiveBuddyStore } from '../../store/store';
 import Logo from "../../assets/GiveBuddylogo.png"
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
  
 const Login = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Login = () => {
     const [updateUserUid, updateUserId, user_id, updateMatchedCharities, matched_charities] = useGiveBuddyStore(
         (state) => [state.updateUserUid, state.updateUserId, state.user_id, state.updateMatchedCharities, state.matched_charities]
     )
+    const [error, setError] = useState('')
 
     const onLogin = (e) => {
         e.preventDefault();
@@ -41,8 +43,11 @@ const Login = () => {
         })
         .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage)
+            if (errorCode.split("/")[1] === "invalid-credential"){
+                setError("Invalid email address/password")
+            }
+            // const errorMessage = error.message;
+            console.log(errorCode)
         });
     }
  
@@ -68,7 +73,8 @@ const Login = () => {
                         label="Email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}  
-                        required                                                    
+                        required   
+                        style={{marginBottom: "24px"}}                                                 
                     />
                 </div>
 
@@ -82,8 +88,15 @@ const Login = () => {
                         label="Create password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)} 
-                        required                              
+                        required   
+                        style={{borderColor: error !== "" ? "#D72C0D" : "#AEB4B9"}}                                    
                     />
+                    {error !== "" && (
+                        <div style={{display:"flex", flexDirection: "row", alignItems: "center", marginBottom: "20px"}}>
+                            <ErrorRoundedIcon sx={{ color: "#D72C0D" }} />
+                            <h1 id="signup-form-error">{error}</h1>
+                        </div>
+                    )} 
                 </div>                                             
                 
                 <button
