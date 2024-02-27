@@ -143,7 +143,7 @@ const Onboarding = () => {
     switch(curStep) {
       case 1:   return <p id="onboarding-page-left-description">1: most important and 3: least important</p>;
       case 2:   return <p id="onboarding-page-left-description">You can select multiple causes that you resonate with.</p>;
-      case 3:   return <p id="onboarding-page-left-description">You can select more than one.</p>;
+      case 3:   return <p id="onboarding-page-left-description">You can select up to 3.</p>;
       case 4:   return <p id="onboarding-page-left-description">We will adjust your results based on your location preferences.</p>;
       default:  return null
     }

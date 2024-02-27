@@ -13,21 +13,30 @@ const StepThree = (props: any) => {
     category.name === props.category
   )[0]
 
-  const onClickCard = (subcategory: string) => {
-    if(!subcategory_list.includes(subcategory)){
-      const newSubcategoryList = [...subcategory_list, subcategory]
-      updateSubcategory(newSubcategoryList)
+  const onClickCard = (sub: string) => {
+    let num = 0
+    for(let i = 0; i < category.subcategories.length; i++){
+      if (subcategory_list.includes(category.subcategories[i].name)){
+        num ++;
+      }
+    }
+    console.log(num)
+    if(!subcategory_list.includes(sub)){
+      if (num < 3){
+        const newSubcategoryList = [...subcategory_list, sub]
+        updateSubcategory(newSubcategoryList)
+      }
     } 
     else {
-      const newSubcategoryList = subcategory_list.filter((s) => s !== subcategory)
+      const newSubcategoryList = subcategory_list.filter((s) => s !== sub)
       updateSubcategory(newSubcategoryList)
     }
 
   }
 
-  React.useEffect(() => {
-    console.log(subcategory_list)
-  }, [subcategory_list])
+  // React.useEffect(() => {
+  //   console.log(subcategory_list)
+  // }, [subcategory_list])
 
   return (
     <div id="onboarding-step-three">
