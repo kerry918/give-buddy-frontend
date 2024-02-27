@@ -29,3 +29,67 @@
   justify-content: center;
   margin: 2px;
 }
+
+#mc-tab-section {
+  padding-top: 40px;
+}
+
+#mc-donated-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 720px;
+  margin-top: 8px;
+}
+
+#mc-donated-logo {
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+#mc-donated-charity-name {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #333;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding-left: 18px;
+}
+
+#mc-donated-amount-edit-container {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #717171;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+#mc-donated-amount {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #717171;
+  padding-right: 40px;
+}
+
+#mc-donated-modal-title {
+  padding: 5px 20px;
+}
+
+#mc-donated-amount-title {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  color: #000;
+}

@@ -23,6 +23,9 @@ const CharityDetail = (props: any) => {
   const location = useLocation()
   const { prev } = location.state
   const [curCharity, setCurCharity] = React.useState<Charity|undefined>(undefined)
+  const [user_id] = useGiveBuddyStore(
+    (state) => [state.user_id]
+  )
 
   React.useEffect(() => {
     axios
@@ -30,6 +33,32 @@ const CharityDetail = (props: any) => {
       .then((res) => setCurCharity(res.data))
       .catch((err) => console.log(err));
   }, [])
+
+  const handleSaveCharity = (charity_id: Number | undefined) => {
+    if (charity_id){
+      axios
+      .post(`${API_URL}/saved_charities/${user_id}`, {
+        "saved_charity":charity_id,
+      })
+      .then((res) => {
+          console.log(res)
+      })
+      .catch((err) => console.log(err));
+    }
+  }
+
+  const handleDonateCharity = (charity_id: Number | undefined) => {
+    if (charity_id){
+      axios
+      .post(`${API_URL}/update_donated_charities/${user_id}`, {
+        "donated_charity_id":charity_id
+      })
+      .then((res) => {
+          console.log(res)
+      })
+      .catch((err) => console.log(err));
+    }
+  }
 
   return (
     <div id="cd-page">
@@ -39,7 +68,7 @@ const CharityDetail = (props: any) => {
           <Breadcrumbs aria-label="breadcrumb">
             <Link
               underline="hover"
-              href={prev === "recommendation" ? "/recommended_charities" : "/find_charities"}
+              href={prev === "recommendation" ? "/recommended_charities" : prev === "charity directory" ? "/find_charities" : "/my_charities"}
               style={{ textTransform: "capitalize", color: "#717171"}}
             >
               {prev}
@@ -97,12 +126,22 @@ const CharityDetail = (props: any) => {
                   </Stack>
                 </Stack>
                 <div id="cd-page-save-button-container">
-                  <Button id="cd-page-save-button" variant="outlined">Save</Button>
+                  <Button id="cd-page-save-button" variant="outlined" onClick={() => handleSaveCharity(curCharity?.charity_id)}>Save</Button>
                 </div>
               </div>
             </Box>
             <div id="cd-page-visit-button-container">
               <Button size="large" href={"https://" + curCharity?.website} target="_blank" id="cd-page-visit-button">Visit Charity Website</Button>
+            </div>
+            <div id="cd-page-donate-container">
+              <div>
+                <h1 id="cd-page-donate-header">Did you donate to {curCharity?.charity_name}?</h1>
+                <h1 id="cd-page-donate-desc">Let us know and we’ll help you keep track of your donations.</h1>
+              </div>
+              <div>
+                <button id="cd-page-donate-button" onClick={() => handleDonateCharity(curCharity?.charity_id)}>Yes</button>
+                <button id="cd-page-donate-button">No</button>
+              </div>
             </div>
             <Box sx={{ pt: 2 }}>
               <Typography gutterBottom variant="body2" id="cd-page-about-title">
