@@ -26,6 +26,7 @@ const RecommendedCharities = () => {
   const [curCharity, setCurCharity] = React.useState<Charity|undefined>(undefined)
   const [curMatchedCharities, setCurMatchedCharities] = React.useState(matched_charities?.slice(0, 5))
   const [curCharityIdx, setCurCharityIdx] = React.useState(0)
+  const [showDonated, setShowDonated] = React.useState<Number[]>([])
 
   React.useEffect(() => {
     if (curMatchedCharities){
@@ -82,6 +83,11 @@ const RecommendedCharities = () => {
       })
       .catch((err) => console.log(err));
     }
+  }
+
+  const handleWebsiteClick = (charity_idx: Number) => {
+    const newList = [...showDonated, charity_idx]
+    setShowDonated(newList)
   }
 
   return (
@@ -169,7 +175,7 @@ const RecommendedCharities = () => {
                 </Link>
               </Box>
               <div id="rc-page-visit-button-container">
-                <Button size="large" href={"https://" + curCharity.website} target="_blank" id="rc-page-visit-button">Visit Charity Website</Button>
+                <Button size="large" href={"https://" + curCharity.website} target="_blank" onClick={() => handleWebsiteClick(curCharityIdx)} id="rc-page-visit-button">Visit Charity Website</Button>
               </div>
             </Card>
             {curCharityIdx < 4 && (
@@ -178,18 +184,23 @@ const RecommendedCharities = () => {
               </div>
             )}
           </div>
-          <div style={{display: "flex", justifyContent: "center"}}>
-            <div id="cd-page-donate-container" style={{width: 770}}>
-              <div>
-                <h1 id="cd-page-donate-header">Did you donate to {curCharity?.charity_name}?</h1>
-                <h1 id="cd-page-donate-desc">Let us know and we’ll help you keep track of your donations.</h1>
+          {
+            showDonated.includes(curCharityIdx) && (
+              <div style={{display: "flex", justifyContent: "center"}}>
+                <div id="cd-page-donate-container" style={{width: 770}}>
+                  <div>
+                    <h1 id="cd-page-donate-header">Did you donate to {curCharity?.charity_name}?</h1>
+                    <h1 id="cd-page-donate-desc">Let us know and we’ll help you keep track of your donations.</h1>
+                  </div>
+                  <div>
+                    <button id="cd-page-donate-button" onClick={() => handleDonateCharity(curCharity?.charity_id)}>Yes</button>
+                    <button id="cd-page-donate-button">No</button>
+                  </div>
+                </div>
               </div>
-              <div>
-                <button id="cd-page-donate-button" onClick={() => handleDonateCharity(curCharity?.charity_id)}>Yes</button>
-                <button id="cd-page-donate-button">No</button>
-              </div>
-            </div>
-          </div>
+            )
+          }
+
         </>
       )}
     </div>
