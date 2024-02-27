@@ -59,7 +59,7 @@ const Onboarding = () => {
         setCurSubcategory(0)
       }
     }
-    else if(curStep === 4){
+    else if(curStep === 3){
       postOnboarding()
     }
     else {
@@ -79,7 +79,7 @@ const Onboarding = () => {
       setCurSubcategory(newSubcategory)
       return
     }
-    else if(curStep === 4){
+    else if(curStep === 3){
       if(category.length === 0){
         const newStep = curStep - 2
         setCurStep(newStep)
@@ -122,7 +122,7 @@ const Onboarding = () => {
       case 1:   return <StepOne />;
       case 2:   return <StepTwo />;
       case 3:   return <StepThree category={category[curSubcategroy]}/>;
-      case 4:  return <StepFour />;
+      // case 4:  return <StepFour />;
       default:      return <h1>No project match</h1>
     }
   }
@@ -132,7 +132,7 @@ const Onboarding = () => {
       case 1:   return <p id="onboarding-page-left-title">Rank these <span style={{textDecorationLine: "underline"}}>charity characteristics</span> based on how much you value them.</p>;
       case 2:   return <p id="onboarding-page-left-title">What causes are you interested in?</p>;
       case 3:   return <p id="onboarding-page-left-title">Which <span style={{textDecorationLine: "underline", textTransform: "lowercase"}}>{subcategory}</span> causes are particularly meaningful to you?</p>;
-      case 4:   return <p id="onboarding-page-left-title">Where would you like to donate?</p>;
+      // case 4:   return <p id="onboarding-page-left-title">Where would you like to donate?</p>;
       default:  return null
     }
   }
