@@ -20,7 +20,7 @@ const StepThree = (props: any) => {
         num ++;
       }
     }
-    console.log(num)
+
     if(!subcategory_list.includes(sub)){
       if (num < 3){
         const newSubcategoryList = [...subcategory_list, sub]
