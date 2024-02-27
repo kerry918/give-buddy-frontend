@@ -70,7 +70,11 @@ const MyCharities = () => {
       "donated_amount": amount
     })
     .then((res) => {
-        console.log(res)
+        setDonatedCharities(res.data.donated_to)
+        donatedCharities.map((c: number[]) => {
+          const newList = [...donatedCharitiesId, c[0]]
+          setDonatedCharitiesId(newList)
+        })
         setOpen(false);
     })
     .catch((err) => console.log(err));
@@ -124,7 +128,6 @@ const MyCharities = () => {
   }, [value])
 
   React.useEffect(() => {
-    console.log(donatedCharitiesId)
     axios
     .get(`${API_URL}/charities/`)
     .then((res) => {
@@ -201,11 +204,14 @@ const MyCharities = () => {
                     </div>
                     
                     <div id="mc-donated-amount-edit-container">
-                      {(donatedCharities.filter((d) => d[0] === c.charity_id as number)) !== undefined
-                      && ((donatedCharities.filter((d) => d[0] === c.charity_id as number))[0].length === 2)
-                      && (
-                        <h1 id="mc-donated-amount">$ {Object.values(donatedCharities.filter((d) => d[0] === c.charity_id as number))[0][1]} donated</h1>
-                      )}
+                      {donatedCharities.map((d) => {
+                        if(d[0] === c.charity_id && d.length == 2){
+                          return (
+                            <h1 id="mc-donated-amount">$ {d[1]} donated</h1>
+                          )
+                        }
+                      })}
+
                       <div onClick={() => handleClickOpen(c.charity_id as number)}>
                         <CreateIcon/>
                       </div>
