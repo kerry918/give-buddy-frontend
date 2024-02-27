@@ -29,9 +29,7 @@ const Onboarding = () => {
         "rr_ranking":rr_ranking,
         "ctc_ranking":ctc_ranking,
         "categories":category,
-        "subcategories":subcategory_list, 
-        "province": province, 
-        "city": city
+        "subcategories":subcategory_list
       }, {
         headers: {
           'Content-Type': 'application/json'
