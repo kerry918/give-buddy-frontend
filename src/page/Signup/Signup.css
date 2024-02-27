@@ -6,8 +6,8 @@
   font-family: sans-serif;
 }
 
-#header {
-  padding: 2% 5%;
+#signup-header {
+  padding: 0% 5%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -27,7 +27,7 @@
   padding: 32px;
   border-radius: 4px;
   width: 350px;
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 
 #signup-main-text {
@@ -71,7 +71,7 @@
   line-height: 20px;
   padding: 10px 20px;
   border-radius: 4px;
-  margin-top: 45px;
+  margin-top: 35px;
 }
 
 #signup-form-input {
@@ -92,4 +92,9 @@
   color: var(--Text-Critical, #D72C0D);
   margin: 0;
   margin-left: 8px;
+}
+
+#signup-province-select {
+  width: 350px;
+  padding: 3%;
 }
