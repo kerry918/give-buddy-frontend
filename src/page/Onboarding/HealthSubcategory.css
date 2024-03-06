@@ -1,0 +1,30 @@
+#health-subcategory {
+  padding: 50px 150px;
+  font-family: sans-serif;
+  overflow-y: auto;
+  height: calc(100vh - 100px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+#health-subcategory-card-container {
+  border-radius: 12px;
+  border: 1px solid #BEBEBE;
+  background: #FFF;
+  padding: 8px;
+  width: 180px;
+  height: 90px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#health-subcategory-card-name {
+  margin: 0px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
