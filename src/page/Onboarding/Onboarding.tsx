@@ -10,6 +10,7 @@ import StepFour from './StepFour';
 import { useGiveBuddyStore } from '../../store/store';
 import { API_URL } from "../../constants/url";
 import categories from '../../constants/categories';
+import HealthSubcategory from './HealthSubcategory';
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -59,7 +60,10 @@ const Onboarding = () => {
         setCurSubcategory(0)
       }
     }
-    else if(curStep === 3){
+    else if(curStep === 3 && !category.includes("Health")){
+      postOnboarding()
+    }
+    else if(curStep === 4) {
       postOnboarding()
     }
     else {
@@ -78,6 +82,11 @@ const Onboarding = () => {
       const newSubcategory = curSubcategroy - 1
       setCurSubcategory(newSubcategory)
       return
+    }
+    else if(curStep === 4){
+      const newStep = curStep - 1
+      setCurStep(newStep)
+      setCurSubcategory(category.length - 1)
     }
     else if(curStep === 3){
       if(category.length === 0){
@@ -122,7 +131,7 @@ const Onboarding = () => {
       case 1:   return <StepOne />;
       case 2:   return <StepTwo />;
       case 3:   return <StepThree category={category[curSubcategroy]}/>;
-      // case 4:  return <StepFour />;
+      case 4:  return <HealthSubcategory/>;
       default:      return <h1>No project match</h1>
     }
   }
@@ -132,7 +141,7 @@ const Onboarding = () => {
       case 1:   return <p id="onboarding-page-left-title">Rank these <span style={{textDecorationLine: "underline"}}>charity characteristics</span> based on how much you value them.</p>;
       case 2:   return <p id="onboarding-page-left-title">What causes are you interested in?</p>;
       case 3:   return <p id="onboarding-page-left-title">Which <span style={{textDecorationLine: "underline", textTransform: "lowercase"}}>{subcategory}</span> causes are particularly meaningful to you?</p>;
-      // case 4:   return <p id="onboarding-page-left-title">Where would you like to donate?</p>;
+      case 4:   return <p id="onboarding-page-left-title">Which health related causes do you feel strongly about? </p>;
       default:  return null
     }
   }
@@ -142,7 +151,7 @@ const Onboarding = () => {
       case 1:   return <p id="onboarding-page-left-description">1: most important and 3: least important</p>;
       case 2:   return <p id="onboarding-page-left-description">You can select multiple causes that you resonate with.</p>;
       case 3:   return <p id="onboarding-page-left-description">You can select up to 3.</p>;
-      case 4:   return <p id="onboarding-page-left-description">We will adjust your results based on your location preferences.</p>;
+      case 4:   return <p id="onboarding-page-left-description">You can select more than one.</p>;
       default:  return null
     }
   }
