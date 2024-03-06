@@ -1,7 +1,7 @@
 export const financialTransparency:Record<string, string> = {
-  100: "Level 2", 
-  50: "Level 1", 
-  0: "Level 0"
+  100: "High", 
+  50: "Medium", 
+  0: "Low"
 }
 
 export const resultsReporting:Record<string, string> = {
