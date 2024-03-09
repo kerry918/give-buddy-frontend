@@ -1,3 +1,13 @@
+# give-buddy-frontend
+## Setup
+Add an `.env` file in the root with the firebase credentials (refer to https://www.notion.so/kerrylkr19/Capstone-e62949620f35489e8f1878855fa41993?pvs=4)
+
+## Install packages
+`npm install`
+
+## Run the app
+`npm run start`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
