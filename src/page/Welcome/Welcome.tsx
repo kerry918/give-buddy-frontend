@@ -2,6 +2,8 @@ import React from "react"
 import "./Welcome.css"
 import { useNavigate } from "react-router-dom";
 import welcomeLogo from "../../assets/welcomeLogo.png"
+import financialTransparency from "../../assets/financialTransparency.jpg"
+import centsToCause from "../../assets/centsToCause.jpg"
 
 const Welcome = () => {
   const [curStep, setCurStep] = React.useState(1)
@@ -12,9 +14,30 @@ const Welcome = () => {
       case 1:   return <img src={welcomeLogo}/>;
       case 2:   return <img src={welcomeLogo}/>;
       case 3:   return <p style={{color: "#FFF", fontSize: "32px", fontWeight: "400"}}>Some things to know about our charities...</p>;
-      case 4:   return <p>Step 4</p>;
-      case 5:   return <p>Step 5</p>;
-      case 6:   return <p>Step 6</p>;
+      case 4:   return (
+        <div>
+          <p style={{color: "#FFF", fontSize: "40px", fontWeight: "400", paddingBottom: "40px", margin: "0"}}>Charity Characteristics</p>
+          <p style={{color: "#FFF", fontSize: "32px", fontWeight: "400", paddingBottom: "40px"}}>1. &nbsp; Financial Transparency</p>
+          <p style={{color: "#949494", fontSize: "32px", fontWeight: "400", paddingBottom: "40px"}}>2. &nbsp; Cents to cause</p>
+          <p style={{color: "#949494", fontSize: "32px", fontWeight: "400"}}>3. &nbsp; Results Reporting</p>
+        </div>
+      );
+      case 5:   return (
+        <div>
+          <p style={{color: "#FFF", fontSize: "40px", fontWeight: "400", paddingBottom: "40px", margin: "0"}}>Charity Characteristics</p>
+          <p style={{color: "#949494", fontSize: "32px", fontWeight: "400", paddingBottom: "40px"}}>1. &nbsp; Financial Transparency</p>
+          <p style={{color: "#FFF", fontSize: "32px", fontWeight: "400", paddingBottom: "40px"}}>2. &nbsp; Cents to cause</p>
+          <p style={{color: "#949494", fontSize: "32px", fontWeight: "400"}}>3. &nbsp; Results Reporting</p>
+        </div>
+      );
+      case 6:   return (
+        <div>
+          <p style={{color: "#FFF", fontSize: "40px", fontWeight: "400", paddingBottom: "40px", margin: "0"}}>Charity Characteristics</p>
+          <p style={{color: "#949494", fontSize: "32px", fontWeight: "400", paddingBottom: "40px"}}>1. &nbsp; Financial Transparency</p>
+          <p style={{color: "#949494", fontSize: "32px", fontWeight: "400", paddingBottom: "40px"}}>2. &nbsp; Cents to cause</p>
+          <p style={{color: "#FFF", fontSize: "32px", fontWeight: "400"}}>3. &nbsp; Results Reporting</p>
+        </div>
+      );
       default:  return null
     }
   }
@@ -33,10 +56,37 @@ const Welcome = () => {
           <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400"}}>Please note that <span style={{fontWeight: "bold"}}>skipping questions</span> may affect the precision of your result.</p>
         </div>
       );
-      case 3:   return <h1>Step 3</h1>;
-      case 4:   return <h1>Step 4</h1>;
-      case 5:   return <h1>Step 5</h1>;
-      case 6:   return <h1>Step 6</h1>;
+      case 3:   return (
+        <div style={{paddingRight: "10%"}}>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400", paddingBottom: "40px"}}>Our charities are evaluated by 3 different characteristics:</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400", paddingBottom: "40px"}}>1. &nbsp; Financial Transparency</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400", paddingBottom: "40px"}}>2. &nbsp; Cents to cause</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400"}}>3. &nbsp; Results Reporting</p>
+        </div>
+      );
+      case 4:   return (
+        <div>
+          <p style={{color: "#4E4E4E", fontSize: "32px", fontWeight: "500"}}>Financial Transparency</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400", paddingBottom: "30px"}}>This is evaluating how easily a charity’s audited financial statements can be accessed online.</p>
+          <img src={financialTransparency} style={{width: "100%"}}/>
+        </div>
+      );
+      case 5:   return (
+        <div>
+          <p style={{color: "#4E4E4E", fontSize: "32px", fontWeight: "500"}}>Cents to cause</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400"}}>This indicates how many cents per dollar donated are going towards the charity's programs.</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400", paddingBottom: "30px"}}>If Charity A has a score of 89%, it means that for every dollar donated to the charity, $0.89 will go to the charity’s programs while the rest could be allocated for operations and admin purposes.</p>
+          <img src={centsToCause} style={{width: "80%"}}/>
+        </div>
+      );
+      case 6:   return (
+        <div>
+          <p style={{color: "#4E4E4E", fontSize: "32px", fontWeight: "500"}}>Results Reporting</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400"}}>This grade is an evaluation of how public a charity’s reports are on their activities, outputs and outcomes. This does not consider the strength or quality of these aspects.</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400"}}>Evaluation involves 26 questions covering aspects such as strategy, activities, outcomes, and overall quality.</p>
+          <p style={{color: "#4E4E4E", fontSize: "24px", fontWeight: "400"}}>Charities receive a score ranging from <span style={{fontWeight: "bold"}}>A+ to F</span> based on their disclosure practices.</p>
+        </div>
+      );
       default:      return <h1>No project match</h1>
     }
   }
