@@ -27,6 +27,7 @@ const RecommendedCharities = () => {
   const [curMatchedCharities, setCurMatchedCharities] = React.useState(matched_charities?.slice(0, 5))
   const [curCharityIdx, setCurCharityIdx] = React.useState(0)
   const [showDonated, setShowDonated] = React.useState<Number[]>([])
+  const [showGenerateMore, setShowGenerateMore] = React.useState(false)
 
   React.useEffect(() => {
     if (curMatchedCharities){
@@ -50,14 +51,20 @@ const RecommendedCharities = () => {
   }, [])
 
   const onBackClick = () => {
+    if (showGenerateMore && curMatchedCharities && curCharityIdx === curMatchedCharities.length - 1) {
+      setShowGenerateMore(false)
+      return
+    }
     if (curCharityIdx > 0){
       setCurCharityIdx(curCharityIdx-1)
     }
   }
 
   const onForwardClick = () => {
-    if (curCharityIdx < 4){
+    if (curMatchedCharities && curCharityIdx < curMatchedCharities.length - 1){
       setCurCharityIdx(curCharityIdx+1)
+    } else {
+      setShowGenerateMore(true)
     }
   }
 
@@ -90,6 +97,18 @@ const RecommendedCharities = () => {
     setShowDonated(newList)
   }
 
+  const handleGenerateMore = () => {
+    if (matched_charities && curMatchedCharities){
+      if (curMatchedCharities.length + 5 < matched_charities.length) {
+        setCurMatchedCharities(matched_charities?.slice(0, curMatchedCharities.length + 5))
+        setShowGenerateMore(false)
+      } else {
+        setCurMatchedCharities(matched_charities)
+        setShowGenerateMore(false)
+      }
+    }
+  }
+
   return (
     <div id="rc-page">
       <NavBar/>
@@ -107,82 +126,94 @@ const RecommendedCharities = () => {
                 <ArrowBackIosIcon fontSize="medium"/>
               </div>
             )}
-            <Card variant="outlined" sx={{ maxWidth: 770 }} id="rc-page-card">
-              <Box sx={{ p: 2 }}>
-                <div id="rc-page-top-content-container">
-                  <Stack direction="row" justifyContent="space-between" alignItems="center">
-                    <img src={curCharity.logo} style={{width: 155}}/>
-                    <Stack direction="column" justifyContent="space-between" alignItems="start" id="rc-page-center-container">
-                      <Typography gutterBottom variant="h6" component="div">
-                        {curCharity.charity_name}
-                      </Typography>
-                      <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
-                        {curCharity.sub_category.split(", ").map((sc) => {
-                          return (
-                            <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
-                          )
-                        })}
-                      </Stack>
-                      <Stack direction="row" spacing={1} id="rc-page-score-container">
-                        <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
-                          <Typography gutterBottom component="div" id="rc-page-score-title">
-                            FINANCIAL TRANSPARENCY
-                          </Typography>
-                          <Typography id="rc-page-score-value">
-                            {financialTransparency[curCharity.financial_transparency.toString()]}
-                          </Typography>
+            {!showGenerateMore ? (
+              <Card variant="outlined" sx={{ maxWidth: 770 }} id="rc-page-card">
+                <Box sx={{ p: 2 }}>
+                  <div id="rc-page-top-content-container">
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <img src={curCharity.logo} style={{width: 155}}/>
+                      <Stack direction="column" justifyContent="space-between" alignItems="start" id="rc-page-center-container">
+                        <Typography gutterBottom variant="h6" component="div">
+                          {curCharity.charity_name}
+                        </Typography>
+                        <Stack direction="row" spacing={1} style={{flexWrap: "wrap"}}>
+                          {curCharity.sub_category.split(", ").map((sc) => {
+                            return (
+                              <Chip label={sc} size="small" style={{textTransform: "capitalize", margin: 5}} variant="outlined"/>
+                            )
+                          })}
                         </Stack>
-                        <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
-                          <Typography gutterBottom component="div" id="rc-page-score-title">
-                            CENTS TO CAUSE
-                          </Typography>
-                          <Typography gutterBottom component="div" id="rc-page-score-value">
-                            {curCharity.cents_to_cause.toString()} %
-                          </Typography>
-                        </Stack>
-                        <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
-                          <Typography gutterBottom component="div" id="rc-page-score-title">
-                            RESULTS REPORTING
-                          </Typography>
-                          <Typography gutterBottom component="div" id="rc-page-score-value">
-                            {resultsReporting[curCharity.results_reporting.toString()]}
-                          </Typography>
+                        <Stack direction="row" spacing={1} id="rc-page-score-container">
+                          <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
+                            <Typography gutterBottom component="div" id="rc-page-score-title">
+                              FINANCIAL TRANSPARENCY
+                            </Typography>
+                            <Typography id="rc-page-score-value">
+                              {financialTransparency[curCharity.financial_transparency.toString()]}
+                            </Typography>
+                          </Stack>
+                          <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
+                            <Typography gutterBottom component="div" id="rc-page-score-title">
+                              CENTS TO CAUSE
+                            </Typography>
+                            <Typography gutterBottom component="div" id="rc-page-score-value">
+                              {curCharity.cents_to_cause.toString()} %
+                            </Typography>
+                          </Stack>
+                          <Stack direction="column" spacing={1} alignItems="center" id="rc-page-score-subcontainer">
+                            <Typography gutterBottom component="div" id="rc-page-score-title">
+                              RESULTS REPORTING
+                            </Typography>
+                            <Typography gutterBottom component="div" id="rc-page-score-value">
+                              {resultsReporting[curCharity.results_reporting.toString()]}
+                            </Typography>
+                          </Stack>
                         </Stack>
                       </Stack>
                     </Stack>
-                  </Stack>
-                  <div id="rc-page-save-button-container">
-                    <Button id="rc-page-save-button" variant="outlined" onClick={() => handleSaveCharity(curCharity.charity_id)}>Save</Button>
+                    <div id="rc-page-save-button-container">
+                      <Button id="rc-page-save-button" variant="outlined" onClick={() => handleSaveCharity(curCharity.charity_id)}>Save</Button>
+                    </div>
                   </div>
+                </Box>
+                <Divider light style={{background: "#D9D9D9", height: "2px"}}/>
+                <Box sx={{ p: 2 }}>
+                  <Typography gutterBottom variant="body2" id="rc-page-about-title">
+                    About
+                  </Typography>
+                  <Typography gutterBottom variant="body2" id="rc-page-about-description">
+                    {curCharity.overview}
+                  </Typography>
+                  <Link
+                    to={{
+                      pathname: `/charity/${curCharity.charity_id}`
+                    }}
+                    id="rc-page-learn-more-link"
+                    state={{prev: "recommendation"}}
+                  >
+                    Learn More
+                  </Link>
+                </Box>
+                <div id="rc-page-visit-button-container">
+                  <Button size="large" href={"https://" + curCharity.website} target="_blank" onClick={() => handleWebsiteClick(curCharityIdx)} id="rc-page-visit-button">Visit Charity Website</Button>
                 </div>
-              </Box>
-              <Divider light style={{background: "#D9D9D9", height: "2px"}}/>
-              <Box sx={{ p: 2 }}>
-                <Typography gutterBottom variant="body2" id="rc-page-about-title">
-                  About
-                </Typography>
-                <Typography gutterBottom variant="body2" id="rc-page-about-description">
-                  {curCharity.overview}
-                </Typography>
-                <Link
-                  to={{
-                    pathname: `/charity/${curCharity.charity_id}`
-                  }}
-                  id="rc-page-learn-more-link"
-                  state={{prev: "recommendation"}}
-                >
-                  Learn More
-                </Link>
-              </Box>
-              <div id="rc-page-visit-button-container">
-                <Button size="large" href={"https://" + curCharity.website} target="_blank" onClick={() => handleWebsiteClick(curCharityIdx)} id="rc-page-visit-button">Visit Charity Website</Button>
-              </div>
-            </Card>
-            {curCharityIdx < 4 && (
+              </Card>
+            ) : (
+              <Card variant="outlined" sx={{ width: 770, height: 470, display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }} id="rc-page-card">
+                <p style={{color: "#333", fontSize: "24px", fontWeight: "500"}}>Still looking for more charities?</p>
+                <p onClick={() => handleGenerateMore()} style={{cursor: "pointer", color: "#333", fontSize: "14px", fontWeight: "500", textDecorationLine: "underline"}}>Generate more recommendations.</p>
+              </Card>
+            )}
+            
+
+            {curMatchedCharities && curCharityIdx < curMatchedCharities.length && (
               <div id="rc-page-forward-icon" onClick={onForwardClick}>
                 <ArrowForwardIosIcon/>
               </div>
             )}
+          </div>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <p>{curCharityIdx + 1} of {curMatchedCharities?.length}</p>
           </div>
           {
             showDonated.includes(curCharityIdx) && (
