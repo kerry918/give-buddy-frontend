@@ -184,6 +184,9 @@ const RecommendedCharities = () => {
               </div>
             )}
           </div>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <p>{curCharityIdx + 1} of {curMatchedCharities?.length}</p>
+          </div>
           {
             showDonated.includes(curCharityIdx) && (
               <div style={{display: "flex", justifyContent: "center"}}>
