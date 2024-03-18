@@ -48,7 +48,7 @@ const Home = () => {
           <p id="home-page-description">To find charities that resonate with your values and passions, we’ll ask you a few questions. Your answers will help us create a personalized selection of causes that you align with.</p>
           <p id="home-page-description">Please note that skipping questions may affect the precision of your results.</p>
 
-          <a href="/onboarding" id="home-page-link"><p style={{paddingTop: "40px"}}>Get Started</p></a>
+          <a href="/welcome" id="home-page-link"><p style={{paddingTop: "40px"}}>Get Started</p></a>
           {/* <div>
             <button onClick={handleLogout}>
               Logout

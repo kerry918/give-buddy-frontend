@@ -11,6 +11,7 @@ import RecommendedCharities from './page/RecommendedCharities/RecommendedChariti
 import FindCharities from './page/FindCharities/FindCharities';
 import MyCharities from './page/MyCharities/MyCharities';
 import CharityDetail from './page/CharityDetail/CharityDetail';
+import Welcome from './page/Welcome/Welcome';
  
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/signup" element={<Signup/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/onboarding" element={<Onboarding/>}/>
+              <Route path="/welcome" element={<Welcome/>}/>
               <Route path="/loading" element={<Loading/>}/>
               <Route path="/recommended_charities" element={<RecommendedCharities/>}/>
               <Route path="/find_charities" element={<FindCharities/>}/>

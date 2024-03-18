@@ -76,7 +76,7 @@ const Onboarding = () => {
     if (curStep === 1){
       const newStep = curStep - 1
       setCurStep(newStep)
-      navigate("/home")
+      navigate("/welcome")
     } 
     else if(curStep === 3 && curSubcategroy > 0){
       const newSubcategory = curSubcategroy - 1
