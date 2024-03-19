@@ -53,7 +53,7 @@ const Signup = () => {
           .then((res) => {
             console.log(res)
             updateUserId(res.data.user_id)
-            navigate("/home")
+            navigate("/welcome")
           })
           .catch((err) => console.log(err));
       })

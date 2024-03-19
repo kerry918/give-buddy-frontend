@@ -35,7 +35,7 @@ const Login = () => {
                     if(res.data.user_data.matched_charities){
                         navigate("/recommended_charities")
                     } else {
-                        navigate("/home")
+                        navigate("/welcome")
                     }
                 })
                 .catch((err) => console.log(err));
