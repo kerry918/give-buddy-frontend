@@ -18,6 +18,11 @@ import "./RecommendedCharities.css"
 import { financialTransparency, resultsReporting } from "../../constants/score";
 import { Button } from "@mui/material";
 
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+
 const RecommendedCharities = () => {
   const [matched_charities, user_uid, updateMatchedCharities, user_id] = useGiveBuddyStore(
     (state) => [state.matched_charities, state.user_uid, state.updateMatchedCharities, state.user_id]
@@ -28,6 +33,7 @@ const RecommendedCharities = () => {
   const [curCharityIdx, setCurCharityIdx] = React.useState(0)
   const [showDonated, setShowDonated] = React.useState<Number[]>([])
   const [showGenerateMore, setShowGenerateMore] = React.useState(false)
+  const [donated, setDonated] = React.useState(false)
 
   React.useEffect(() => {
     if (curMatchedCharities){
@@ -86,7 +92,8 @@ const RecommendedCharities = () => {
         "donated_charity_id":charity_id
       })
       .then((res) => {
-          console.log(res)
+        console.log(res)
+        setDonated(true)
       })
       .catch((err) => console.log(err));
     }
@@ -113,8 +120,33 @@ const RecommendedCharities = () => {
     }
   }
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      setDonated(false);
+    }, 5000);
+  }, [donated]);  
+
   return (
     <div id="rc-page">
+      <Collapse in={donated} style={{position: "fixed", top: "80px", left: "20px"}}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setDonated(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Your donation has been recorded in My Charities
+        </Alert>
+      </Collapse>
       <NavBar/>
       <div id="rc-text-container">
         <h1 id="rc-header">Recommended Charities</h1>

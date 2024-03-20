@@ -16,6 +16,12 @@ import Link from '@mui/material/Link';
 import { Button } from "@mui/material";
 import { financialTransparency, resultsReporting } from "../../constants/score";
 
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+
+
 import "./CharityDetail.css"
 
 const CharityDetail = (props: any) => {
@@ -26,6 +32,7 @@ const CharityDetail = (props: any) => {
   const [user_id] = useGiveBuddyStore(
     (state) => [state.user_id]
   )
+  const [donated, setDonated] = React.useState(false)
 
   React.useEffect(() => {
     axios
@@ -55,14 +62,40 @@ const CharityDetail = (props: any) => {
       })
       .then((res) => {
           console.log(res)
+          setDonated(true)
       })
       .catch((err) => console.log(err));
     }
   }
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      setDonated(false);
+    }, 5000);
+  }, [donated]);  
+
   return (
     <div id="cd-page">
       <NavBar/>
+      <Collapse in={donated} style={{position: "absolute", top: "80px", left: "20px"}}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setDonated(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Your donation has been recorded in My Charities
+        </Alert>
+      </Collapse>
       <div id="cd-page-container">
         <div id="cd-page-breadcrumb">
           <Breadcrumbs aria-label="breadcrumb">
