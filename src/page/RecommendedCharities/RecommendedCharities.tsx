@@ -102,9 +102,13 @@ const RecommendedCharities = () => {
       if (curMatchedCharities.length + 5 < matched_charities.length) {
         setCurMatchedCharities(matched_charities?.slice(0, curMatchedCharities.length + 5))
         setShowGenerateMore(false)
+        setCurCharityIdx(curCharityIdx+1)
       } else {
         setCurMatchedCharities(matched_charities)
         setShowGenerateMore(false)
+        if (curMatchedCharities.length + 1 < matched_charities.length){
+          setCurCharityIdx(curCharityIdx+1)
+        }
       }
     }
   }
